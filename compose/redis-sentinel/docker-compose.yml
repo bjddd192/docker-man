@@ -99,29 +99,8 @@ volumes:
   redis_node1_data:
   redis_node2_data:
   redis_node3_data:
-  
-# docker exec -it redis_node1 redis-cli -a 123456 -p 6380  
-  
-# version: '3'
-# services:
-#   redis-master:
-#     image: redis:4.0.9
-#     container_name: redis-master
-#     environment:
-#       TZ: Asia/Shanghai
-#   redis-slave:
-#     image: redis:4.0.9
-#     command: redis-server --slaveof redis-master 6379
-#     restart: always
-#     environment:
-#       TZ: Asia/Shanghai
-#     links:
-#       - redis-master
-#   sentinel:
-#     build: sentinel
-#     environment:
-#       - SENTINEL_DOWN_AFTER=5000
-#       - SENTINEL_FAILOVER=5000    
-#     links:
-#       - redis-master
-#       - redis-slave
+
+# 手工校验、测试  
+# docker exec -it redis_node1 redis-cli -a 123456 -p 6380
+# info Replication
+# docker exec -it redissentinel_redis_sentinel_1_1 redis-cli -p 26379 info Sentinel
