@@ -1,0 +1,129 @@
+# 作者：Mars丶小石头
+# 编写于：2019.01
+
+# Redis Sentinel Documentation
+# https://redis.io/topics/sentinel
+
+# Redis configuration file example
+# https://raw.githubusercontent.com/antirez/redis/4.0/redis.conf
+# http://download.redis.io/redis-stable/redis.conf
+# http://download.redis.io/redis-stable/sentinel.conf
+
+# Compose file reference
+# https://docs.docker.com/compose/compose-file
+
+# 注意：mac 下无法正常使用 host 网络模式(能部署成功，但是外部无法访问)
+# https://forums.docker.com/t/should-docker-run-net-host-work/14215
+
+version: "3"
+services:
+
+  redis_node1:
+    container_name: redis_node1
+    image: redis:${REDIS_VERSION}
+    ports:
+      - ${REDIS_NODE1_PORT}:${REDIS_NODE1_PORT}
+    restart: always
+    network_mode: bridge
+    volumes:
+      - redis_node1_data:/data
+    command: [
+      '--port ${REDIS_NODE1_PORT}',
+      '--requirepass "${REDIS_PWD}"',
+      '--masterauth "${REDIS_PWD}"',
+      '--maxmemory ${REDIS_MAXMEMORY}',
+      '--maxmemory-policy volatile-ttl',
+      '--save ""',
+    ]
+    
+  redis_node2:
+    container_name: redis_node2
+    image: redis:${REDIS_VERSION}
+    ports:
+      - ${REDIS_NODE2_PORT}:${REDIS_NODE2_PORT}
+    restart: always
+    network_mode: bridge
+    volumes:
+      - redis_node2_data:/data
+    command: [
+      '--port ${REDIS_NODE2_PORT}',
+      '--requirepass "${REDIS_PWD}"',
+      '--slaveof ${REDIS_HOST_IP} ${REDIS_NODE1_PORT}',
+      '--masterauth "${REDIS_PWD}"',
+      '--maxmemory ${REDIS_MAXMEMORY}',
+      '--maxmemory-policy volatile-ttl',
+      '--save ""',
+    ]
+    
+  redis_node3:
+    container_name: redis_node3
+    image: redis:${REDIS_VERSION}
+    ports:
+      - ${REDIS_NODE3_PORT}:${REDIS_NODE3_PORT}
+    restart: always
+    network_mode: bridge
+    volumes:
+      - redis_node3_data:/data
+    command: [
+      '--port ${REDIS_NODE3_PORT}',
+      '--requirepass "${REDIS_PWD}"',
+      '--slaveof ${REDIS_HOST_IP} ${REDIS_NODE1_PORT}',
+      '--masterauth "${REDIS_PWD}"',
+      '--maxmemory ${REDIS_MAXMEMORY}',
+      '--maxmemory-policy volatile-ttl',
+      '--save ""',
+    ]
+    
+  redis_sentinel_1: &sentinel
+    image: bjddd192/redis-sentinel:4.0.12-alpine
+    environment:
+      - SENTINEL_MASTER_NAME=${SENTINEL_MASTER_NAME}
+      - SENTINEL_REDIS_IP=${REDIS_HOST_IP}
+      - SENTINEL_REDIS_PORT=${REDIS_NODE1_PORT}
+      - SENTINEL_REDIS_PWD=${REDIS_PWD}
+      - SENTINEL_QUORUM=2
+      - SENTINEL_DOWN_AFTER=10000
+    command: [
+      'bash',
+    ]
+    depends_on:
+      - redis_node1
+      - redis_node2
+      - redis_node3
+
+  redis_sentinel_2:
+    <<: *sentinel
+
+  redis_sentinel_3:
+    <<: *sentinel
+
+volumes:
+  redis_node1_data:
+  redis_node2_data:
+  redis_node3_data:
+  
+# docker exec -it redis_node1 redis-cli -a 123456 -p 6380  
+  
+# version: '3'
+# services:
+#   redis-master:
+#     image: redis:4.0.9
+#     container_name: redis-master
+#     environment:
+#       TZ: Asia/Shanghai
+#   redis-slave:
+#     image: redis:4.0.9
+#     command: redis-server --slaveof redis-master 6379
+#     restart: always
+#     environment:
+#       TZ: Asia/Shanghai
+#     links:
+#       - redis-master
+#   sentinel:
+#     build: sentinel
+#     environment:
+#       - SENTINEL_DOWN_AFTER=5000
+#       - SENTINEL_FAILOVER=5000    
+#     links:
+#       - redis-master
+#       - redis-slave
