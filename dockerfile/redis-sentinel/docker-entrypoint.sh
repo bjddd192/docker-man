@@ -3,7 +3,7 @@ set -e
 
 # create sentinel.conf
 if [ ! -e ${SENTINEL_CONF_PATH} ]; then
-    envsubst < /etc/redis/sentinel.conf.sample > ${SENTINEL_CONF_PATH}
+    envsubst < /etc/redis/sentinel.conf > ${SENTINEL_CONF_PATH}
     chown redis:redis /etc/redis/sentinel.conf
 fi
 

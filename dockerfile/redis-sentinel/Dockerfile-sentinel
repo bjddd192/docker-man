@@ -15,7 +15,7 @@ ENV SENTINEL_CONF_PATH=/etc/redis/sentinel.conf \
 
 RUN apk add --no-cache gettext
 
-ADD sentinel.conf.sample /etc/redis/sentinel.conf.sample
+ADD sentinel.conf /etc/redis/sentinel.conf
 
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
