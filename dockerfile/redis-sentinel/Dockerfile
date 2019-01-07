@@ -15,11 +15,12 @@ ENV SENTINEL_CONF_PATH=/etc/redis/sentinel.conf \
 
 RUN apk add --no-cache gettext
 
-ADD sentinel.conf /etc/redis/sentinel.conf
+ADD sentinel.conf.template /etc/redis/sentinel.conf.template
 
 COPY docker-entrypoint.sh /usr/local/bin/
+
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 26379
-CMD ["redis-server"]
+
+ENTRYPOINT ["docker-entrypoint.sh"]

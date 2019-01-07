@@ -1,0 +1,22 @@
+# http://download.redis.io/redis-stable/sentinel.conf
+
+# 指定端口
+port ${SENTINEL_PORT}
+
+# 指定工作目录
+dir /tmp
+
+# 指定别名  主节点地址  端口  哨兵个数（有几个哨兵监控到主节点宕机执行转移）
+sentinel monitor ${SENTINEL_MASTER_NAME} ${SENTINEL_REDIS_IP} ${SENTINEL_REDIS_PORT} ${SENTINEL_QUORUM}
+
+# 配置连接redis主节点密码 
+sentinel auth-pass ${SENTINEL_MASTER_NAME} ${SENTINEL_REDIS_PWD}
+
+# 如果哨兵n秒内没有收到主节点的心跳，哨兵就认为主节点宕机了，默认是30秒
+sentinel down-after-milliseconds ${SENTINEL_MASTER_NAME} ${SENTINEL_DOWN_AFTER}
+
+# 选举出新的主节点之后，可以同时连接从节点的个数
+sentinel parallel-syncs ${SENTINEL_MASTER_NAME} ${SENTINEL_PARALLEL_SYNCS}
+
+# 如果n秒后，master仍没活过来，则启动failover，默认180s  
+sentinel failover-timeout ${SENTINEL_MASTER_NAME} ${SENTINEL_FAILOVER_TIMEOUT}

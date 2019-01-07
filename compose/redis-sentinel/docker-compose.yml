@@ -76,6 +76,7 @@ services:
     
   redis_sentinel_1: &sentinel
     image: bjddd192/redis-sentinel:4.0.12-alpine
+    network_mode: bridge
     environment:
       - SENTINEL_MASTER_NAME=${SENTINEL_MASTER_NAME}
       - SENTINEL_REDIS_IP=${REDIS_HOST_IP}
@@ -83,9 +84,6 @@ services:
       - SENTINEL_REDIS_PWD=${REDIS_PWD}
       - SENTINEL_QUORUM=2
       - SENTINEL_DOWN_AFTER=10000
-    command: [
-      'bash',
-    ]
     depends_on:
       - redis_node1
       - redis_node2
