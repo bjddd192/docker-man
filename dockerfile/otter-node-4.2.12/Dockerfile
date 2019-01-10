@@ -5,8 +5,8 @@ MAINTAINER bjddd192 <bjddd192@163.com>
 
 ARG NODE_VERSION=4.2.12
 
-ARG INSTALL_URL=http://172.20.32.36/package/otter/node.deployer-${NODE_VERSION}.tar.gz
-# ARG INSTALL_URL=https://github.com/alibaba/otter/releases/download/otter-${NODE_VERSION}/node.deployer-${NODE_VERSION}.tar.gz
+# ARG INSTALL_URL=http://172.20.32.36/package/otter/node.deployer-${NODE_VERSION}.tar.gz
+ARG INSTALL_URL=https://github.com/alibaba/otter/releases/download/otter-${NODE_VERSION}/node.deployer-${NODE_VERSION}.tar.gz
 
 ENV TZ="Asia/Shanghai" \
     NODE_ID=1 \ 
