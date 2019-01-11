@@ -63,7 +63,7 @@ docker-compose up -d otter_manager
    	from information_schema.tables b
    	where b.TABLE_SCHEMA = 'db_uc' and b.TABLE_NAME in
    	(
-   		'otter_trigger'
+   		'bm_size'
    	) 
    ) b;
    ```
