@@ -42,20 +42,21 @@ docker-compose up -d otter_manager
 7. 添加 Pipeline
 8. 批量添加映射关系
    ```sql
-   -- DROP TABLE IF EXISTS otter_trigger;
-   CREATE TABLE `otter_trigger` (
-	  `line_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '行id(主键)',
-	  `modifier` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '修改人',
-	  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
-	  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
-	  PRIMARY KEY (`line_id`)
-   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='otter同步自动触发表，用于检测otter同步异常';
+   CREATE TABLE `bm_size` (
+     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '行ID(主键)',
+     `size_no` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '尺码编号',
+     `size_name` varchar(30) COLLATE utf8_bin NOT NULL COMMENT '尺码名称',
+     `sync_data_sign` tinyint(4) NOT NULL DEFAULT '1' COMMENT '数据同步标志(1=同步 0=不同步)',
+     `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
+     PRIMARY KEY (`id`),
+     UNIQUE KEY `uk_bm_size_size_no` (`size_no`)
+   ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='尺码信息表';
 
    select  
    	concat(a.schema1,',',b.TABLE_NAME,',',a.sourceId1,',',a.schema2,',',b.TABLE_NAME,',',a.sourceId2)
    from 
    (
-   	SELECT 'db_uc' schema1,1 sourceId1,'db_uc' schema2,2 sourceId2 
+   	SELECT 'db_uc' schema1,1 sourceId1,'db_mdm' schema2,1 sourceId2 
    ) a,
    (
    	select b.* 

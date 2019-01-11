@@ -15,7 +15,7 @@ services:
     restart: always
     network_mode: bridge
     ports:
-    - "2181:2181"
+    - "${otter_zookeeper_port}:${otter_zookeeper_port}"
     environment:
     - TZ=Asia/Shanghai
     volumes:
@@ -40,7 +40,8 @@ services:
     - OTTER_DATABASE_URL=jdbc:mysql://172.20.32.37:3309/otter
     - OTTER_DATABASE_USERNAME=usr_otter
     - OTTER_DATABASE_PASSWORD=scm_otter
-    - OTTER_ZOOKEEPER_CLUSTER_DEFAULT=${otter_manager_domain_name}:2181
+    - OTTER_ZOOKEEPER_CLUSTER_DEFAULT=${otter_manager_domain_name}:${otter_zookeeper_port}
+    - OTTER_ZOOKEEPER_SESSIONTIMEOUT=${otter_zookeeper_sessiontimeout}
     - OTTER_MANAGER_MONITOR_EMAIL_HOST=smtp.exmail.qq.com
     - OTTER_MANAGER_MONITOR_EMAIL_USERNAME=blf1.admin@belle.com.cn
     - OTTER_MANAGER_MONITOR_EMAIL_PASSWORD=Bonnie
@@ -66,6 +67,7 @@ services:
     - TZ=Asia/Shanghai
     - NODE_ID=1
     - OTTER_MANAGER_ADDRESS=${otter_manager_domain_name}:${otter_manager_address}
+    - OTTER_ZOOKEEPER_SESSIONTIMEOUT=${otter_zookeeper_sessiontimeout}
     - JAVA_XMS=256M
     - JAVA_XMX=512M
     - JAVA_XMN=128M
@@ -85,6 +87,7 @@ services:
     - TZ=Asia/Shanghai
     - NODE_ID=2
     - OTTER_MANAGER_ADDRESS=${otter_manager_domain_name}:${otter_manager_address}
+    - OTTER_ZOOKEEPER_SESSIONTIMEOUT=${otter_zookeeper_sessiontimeout}
     - JAVA_XMS=256M
     - JAVA_XMX=512M
     - JAVA_XMN=128M
