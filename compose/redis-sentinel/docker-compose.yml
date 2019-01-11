@@ -1,6 +1,9 @@
 # 作者：Mars丶小石头
 # 编写于：2019.01
 
+# Compose file reference
+# https://docs.docker.com/compose/compose-file
+
 # Redis Sentinel Documentation
 # https://redis.io/topics/sentinel
 
@@ -8,9 +11,6 @@
 # https://raw.githubusercontent.com/antirez/redis/4.0/redis.conf
 # http://download.redis.io/redis-stable/redis.conf
 # http://download.redis.io/redis-stable/sentinel.conf
-
-# Compose file reference
-# https://docs.docker.com/compose/compose-file
 
 # 注意：mac 下无法正常使用 host 网络模式(能部署成功，但是外部无法访问)
 # https://forums.docker.com/t/should-docker-run-net-host-work/14215
