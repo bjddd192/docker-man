@@ -18,9 +18,10 @@ services:
     - "2181:2181"
     environment:
     - TZ=Asia/Shanghai
-    # volumes:
-    # - ./zookeeper/data:/data
-    # - ./zookeeper/datalog:/datalog
+    volumes:
+    # zookeeper 数据必须持久化，否则重新生成容器后数据会丢失，otter 启动会报错，无法正常进入管理界面。
+    - ./zookeeper/data:/data
+    - ./zookeeper/datalog:/datalog
 
   otter_manager:
     image: bjddd192/otter-manager:4.2.12
@@ -36,7 +37,7 @@ services:
     - TZ=Asia/Shanghai
     - OTTER_MANAGER_DOMAIN_NAME=${otter_manager_domain_name}
     - OTTER_MANAGER_PORT=${otter_manager_port}
-    - OTTER_DATABASE_URL=jdbc:mysql://202.182.127.27:3309/otter
+    - OTTER_DATABASE_URL=jdbc:mysql://172.20.32.37:3309/otter
     - OTTER_DATABASE_USERNAME=usr_otter
     - OTTER_DATABASE_PASSWORD=scm_otter
     - OTTER_ZOOKEEPER_CLUSTER_DEFAULT=${otter_manager_domain_name}:2181
@@ -46,8 +47,8 @@ services:
     - OTTER_MANAGER_MONITOR_EMAIL_STMP_PORT=25
     - LOG_LEVEL=INFO
     - LOG_APPENDER=STDOUT
-    - JAVA_XMS=512M
-    - JAVA_XMX=1024M
+    - JAVA_XMS=1024M
+    - JAVA_XMX=2048M
     - JAVA_XMN=256M
     # volumes:
     # - ./manager/logs:/usr/local/otter/manager/logs
@@ -56,7 +57,7 @@ services:
     image: bjddd192/otter-node:4.2.12
     container_name: otter_node_select
     restart: always
-    network_mode: bridge
+    network_mode: host
     ports:
     - "40410:40410"
     expose:
@@ -75,7 +76,7 @@ services:
     image: bjddd192/otter-node:4.2.12
     container_name: otter_node_load
     restart: always
-    network_mode: bridge
+    network_mode: host
     ports:
     - "40420:40420"
     expose:

@@ -21,7 +21,7 @@ docker-compose up -d otter_zookeeper
 docker-compose up -d otter_manager
 ```
 
-用火狐或者谷歌访问页面如：http://172.20.32.36:40120 ，可以进入web管理控制台，则安装成功。
+用火狐或者谷歌访问页面如：http://10.0.43.52:8099 ，可以进入web管理控制台，则安装成功。
 
 ## 配置 otter
 
@@ -35,9 +35,8 @@ docker-compose up -d otter_manager
    ```
 5. 添加 canal
    ```sql
-   CREATE USER canal IDENTIFIED BY 'Otter2zjlh';  
-   GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canal'@'%';
-   FLUSH PRIVILEGES;
+   grant select, replication slave, replication client on *.* to 'canal'@'%' identified by 'otter2canal';
+   flush privileges;
    ```
 6. 添加 Channel
 7. 添加 Pipeline
@@ -69,33 +68,9 @@ docker-compose up -d otter_manager
    ```
 9. 开启同步
 10. 修改源端数据，然后检查同步是否OK
-11. 配置邮件服务器，在阿里云跟在内网机器不一样，详情请查看：[阿里云 centos7 mailx 发送邮件](https://blog.csdn.net/thinkthewill/article/details/80868442)
-    ```sh
-	# 安装 mailx
-	yum -y install mailx
-	
-	# 配置发件人信息
-	echo 'set ssl-verify=ignore' >> /etc/mail.rc
-	echo 'set nss-config-dir=/etc/pki/nssdb' >> /etc/mail.rc
-	echo 'set from=data_helper@zorin.xin' >> /etc/mail.rc
-	echo 'set smtp=smtps://smtp.mxhichina.com:465' >> /etc/mail.rc
-	echo 'set smtp-auth-user=data_helper@zorin.xin' >> /etc/mail.rc
-	echo 'set smtp-auth-password=accvMedia8899' >> /etc/mail.rc
-	echo 'set smtp-auth=login' >> /etc/mail.rc
-	
-	# 测试邮件发送
-	echo "test" | mailx -v -s test -c 88447836@qq.com 88447836@qq.com
-	```
-12. 初始化 Pipeline 同步监控
-	```sql
-	INSERT INTO `otter`.`alarm_rule` (`ID`, `MONITOR_NAME`, `RECEIVER_KEY`, `STATUS`, `PIPELINE_ID`, `DESCRIPTION`, `GMT_CREATE`, `GMT_MODIFIED`, `MATCH_VALUE`, `PARAMETERS`) VALUES ('1', 'EXCEPTION', 'otterteam', 'DISABLE', '1', '同步异常', '2018-07-21 00:28:08', '2018-07-21 00:38:16', 'ERROR,EXCEPTION', '{\"autoRecovery\":false,\"intervalTime\":1800,\"recoveryThresold\":2}');
-	INSERT INTO `otter`.`alarm_rule` (`ID`, `MONITOR_NAME`, `RECEIVER_KEY`, `STATUS`, `PIPELINE_ID`, `DESCRIPTION`, `GMT_CREATE`, `GMT_MODIFIED`, `MATCH_VALUE`, `PARAMETERS`) VALUES ('2', 'POSITIONTIMEOUT', 'otterteam', 'DISABLE', '1', '同步Position超时', '2018-07-21 00:28:08', '2018-07-21 00:41:21', '1800', '{\"autoRecovery\":false,\"intervalTime\":1800,\"recoveryThresold\":2}');
-	INSERT INTO `otter`.`alarm_rule` (`ID`, `MONITOR_NAME`, `RECEIVER_KEY`, `STATUS`, `PIPELINE_ID`, `DESCRIPTION`, `GMT_CREATE`, `GMT_MODIFIED`, `MATCH_VALUE`, `PARAMETERS`) VALUES ('3', 'DELAYTIME', 'otterteam', 'DISABLE', '1', '同步延迟', '2018-07-21 00:28:08', '2018-07-21 00:38:26', '600', '{\"autoRecovery\":false,\"intervalTime\":1800,\"recoveryThresold\":2}');
-	INSERT INTO `otter`.`alarm_rule` (`ID`, `MONITOR_NAME`, `RECEIVER_KEY`, `STATUS`, `PIPELINE_ID`, `DESCRIPTION`, `GMT_CREATE`, `GMT_MODIFIED`, `MATCH_VALUE`, `PARAMETERS`) VALUES ('4', 'PROCESSTIMEOUT', 'otterteam', 'DISABLE', '1', '同步Process超时', '2018-07-21 00:28:08', '2018-07-21 00:42:10', '600', '{\"autoRecovery\":false,\"intervalTime\":1800,\"recoveryThresold\":2}');
-	```
-13. 启用 Pipeline 同步监控
-14. 配置 manager_monitor 监控
-15. 配置系统参数
+11. 启用 Pipeline 同步监控
+12. 配置 manager_monitor 监控
+13. 配置系统参数
 
 ### 异常处理
 
