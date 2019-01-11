@@ -19,7 +19,9 @@ ENV TZ="Asia/Shanghai" \
     JAVA_XMX="512M" \
     JAVA_XMN="128M"
 
-RUN apk add --update curl bash \
+RUN apk add --update curl bash aria2 file tzdata \
+    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \ 
+	&& echo "Asia/Shanghai" > /etc/timezone \
     && mkdir -p /usr/local/otter/node \
     && curl -SL ${INSTALL_URL} -o node.deployer.tar.gz \
     && gunzip node.deployer.tar.gz \

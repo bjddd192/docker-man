@@ -18,6 +18,9 @@ replace_parameter  "@OTTER_MANAGER_MONITOR_EMAIL_PASSWORD" "$OTTER_MANAGER_MONIT
 replace_parameter  "@OTTER_MANAGER_MONITOR_EMAIL_STMP_PORT" "$OTTER_MANAGER_MONITOR_EMAIL_STMP_PORT"
 replace_parameter  "@OTTER_MANAGER_PORT" "$OTTER_MANAGER_PORT"
 
+sed -i "s/@LOG_LEVEL/$LOG_LEVEL/g" /usr/local/otter/manager/conf/logback.xml
+sed -i "s/@LOG_APPENDER/$LOG_APPENDER/g" /usr/local/otter/manager/conf/logback.xml
+
 current_path=`pwd`
 case "`uname`" in
     Linux)
@@ -115,8 +118,8 @@ then
 	echo LOG CONFIGURATION : $logback_configurationFile
 	echo otter conf : $otter_conf 
 	echo CLASSPATH :$CLASSPATH
-	$JAVA $JAVA_OPTS $JAVA_DEBUG_OPT $OTTER_OPTS -classpath .:$CLASSPATH com.alibaba.otter.manager.deployer.OtterManagerLauncher 1>>$base/logs/manager.log
-	echo $! > $base/bin/otter.pid 
+	$JAVA $JAVA_OPTS $JAVA_DEBUG_OPT $OTTER_OPTS -classpath .:$CLASSPATH com.alibaba.otter.manager.deployer.OtterManagerLauncher
+	# echo $! > $base/bin/otter.pid 
 	
 	echo "cd to $current_path for continue"
   	cd $current_path
