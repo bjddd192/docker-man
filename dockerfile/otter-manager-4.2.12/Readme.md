@@ -22,3 +22,7 @@ JAVA_XMS=256M
 JAVA_XMX=512M 
 JAVA_XMN=128M
 ```
+
+#### 类似项目
+
+[docker_otter_manager](https://github.com/mr5/docker_otter_manager)
