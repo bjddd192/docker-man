@@ -1,0 +1,25 @@
+# 作者：Mars丶小石头
+# 编写于：2019.01
+
+# Compose file reference
+# https://docs.docker.com/compose/compose-file
+
+# 功能：mysql 5.7 容器化部署
+
+version: "3"
+
+services:
+  mysql_5.7:
+    image: mysql:5.7.24
+    container_name: mysql_5.7
+    restart: always
+    network_mode: bridge
+    ports:
+    - "${mysql_port}:3306"
+    environment:
+    - MYSQL_ROOT_PASSWORD=${mysql_pwd}
+    volumes:
+    - ${mysql_conf_path}:/etc/mysql/conf.d
+    - ${mysql_data_path}:/var/lib/mysql
+
+
