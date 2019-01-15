@@ -1,9 +1,9 @@
 # 因为 node 节点有需要动态编译 java 代码的可能，故使用 jdk 镜像。
-FROM anapsix/alpine-java:jdk7
+FROM anapsix/alpine-java:8u192b12_jdk
 
 MAINTAINER bjddd192 <bjddd192@163.com>
 
-ARG NODE_VERSION=4.2.12
+ARG NODE_VERSION=4.2.17
 
 # ARG INSTALL_URL=http://10.0.43.24:8066/otter/node.deployer-${NODE_VERSION}.tar.gz
 ARG INSTALL_URL=https://github.com/alibaba/otter/releases/download/otter-${NODE_VERSION}/node.deployer-${NODE_VERSION}.tar.gz

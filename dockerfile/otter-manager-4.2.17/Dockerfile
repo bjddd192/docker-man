@@ -1,4 +1,4 @@
-FROM anapsix/alpine-java:jre8
+FROM anapsix/alpine-java:8u192b12_server-jre
 
 MAINTAINER bjddd192 <bjddd192@163.com>
 
