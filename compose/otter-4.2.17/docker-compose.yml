@@ -1,0 +1,95 @@
+# 作者：Mars丶小石头
+# 编写于：2019.01
+
+# Compose file reference
+# https://docs.docker.com/compose/compose-file
+
+# 功能：容器化部署 otter:v4.2.17
+
+version: '2.1'
+
+services:
+  otter_zookeeper:
+    image: zookeeper:3.4
+    container_name: otter_zookeeper
+    restart: always
+    network_mode: bridge
+    ports:
+    - "${otter_zookeeper_port}:${otter_zookeeper_port}"
+    environment:
+    - TZ=Asia/Shanghai
+    volumes:
+    # zookeeper 数据必须持久化，否则重新生成容器后数据会丢失，otter 启动会报错，无法正常进入管理界面。
+    - ./zookeeper/data:/data
+    - ./zookeeper/datalog:/datalog
+
+  otter_manager:
+    image: bjddd192/otter-manager:4.2.17
+    container_name: otter_manager
+    restart: always
+    network_mode: bridge
+    expose:
+    - "${otter_manager_port}"
+    ports:
+    - "${otter_manager_port}:${otter_manager_port}"
+    - "${otter_manager_address}:1099"
+    environment:
+    - TZ=Asia/Shanghai
+    - OTTER_MANAGER_DOMAIN_NAME=${otter_manager_domain_name}
+    - OTTER_MANAGER_PORT=${otter_manager_port}
+    - OTTER_DATABASE_URL=jdbc:mysql://172.20.32.37:3309/otter
+    - OTTER_DATABASE_USERNAME=usr_otter
+    - OTTER_DATABASE_PASSWORD=scm_otter
+    - OTTER_ZOOKEEPER_CLUSTER_DEFAULT=${otter_manager_domain_name}:${otter_zookeeper_port}
+    - OTTER_ZOOKEEPER_SESSIONTIMEOUT=${otter_zookeeper_sessiontimeout}
+    - OTTER_MANAGER_MONITOR_EMAIL_HOST=smtp.exmail.qq.com
+    - OTTER_MANAGER_MONITOR_EMAIL_USERNAME=blf1.admin@belle.com.cn
+    - OTTER_MANAGER_MONITOR_EMAIL_PASSWORD=Bonnie
+    - OTTER_MANAGER_MONITOR_EMAIL_STMP_PORT=25
+    - LOG_LEVEL=INFO
+    - LOG_APPENDER=STDOUT
+    - JAVA_XMS=1024M
+    - JAVA_XMX=2048M
+    - JAVA_XMN=256M
+    # volumes:
+    # - ./manager/logs:/usr/local/otter/manager/logs
+  
+  otter_node_select:
+    image: bjddd192/otter-node:4.2.17
+    container_name: otter_node_select
+    restart: always
+    network_mode: host
+    ports:
+    - "40410:40410"
+    expose:
+    - "40410"
+    environment:
+    - TZ=Asia/Shanghai
+    - NODE_ID=1
+    - OTTER_MANAGER_ADDRESS=${otter_manager_domain_name}:${otter_manager_address}
+    - OTTER_ZOOKEEPER_SESSIONTIMEOUT=${otter_zookeeper_sessiontimeout}
+    - JAVA_XMS=256M
+    - JAVA_XMX=512M
+    - JAVA_XMN=128M
+    # volumes:
+    # - ./node_select/logs:/usr/local/otter/node/logs
+  
+  otter_node_load:
+    image: bjddd192/otter-node:4.2.17
+    container_name: otter_node_load
+    restart: always
+    network_mode: host
+    ports:
+    - "40420:40420"
+    expose:
+    - "40420"
+    environment:
+    - TZ=Asia/Shanghai
+    - NODE_ID=2
+    - OTTER_MANAGER_ADDRESS=${otter_manager_domain_name}:${otter_manager_address}
+    - OTTER_ZOOKEEPER_SESSIONTIMEOUT=${otter_zookeeper_sessiontimeout}
+    - JAVA_XMS=256M
+    - JAVA_XMX=512M
+    - JAVA_XMN=128M
+    # volumes:
+    # - ./node_load/logs:/usr/local/otter/node/logs
