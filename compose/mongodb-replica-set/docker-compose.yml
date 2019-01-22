@@ -1,0 +1,32 @@
+# 作者：Mars丶小石头
+# 编写于：2019.01
+
+# Compose file reference
+# https://docs.docker.com/compose/compose-file
+
+# 注意：mac 下无法正常使用 host 网络模式(能部署成功，但是外部无法访问)
+# https://forums.docker.com/t/should-docker-run-net-host-work/14215
+
+version: '3'
+services:
+  rs1:
+    image: mongo:3.2
+    container_name: "rs1"
+    network_mode: "host"
+    volumes:
+      - /data/mongodb/rs1:/data/db
+    command: mongod --port 27017 --dbpath /data/db --replSet mongoreplset
+  rs2:
+    image: mongo:3.2
+    container_name: "rs2"
+    network_mode: "host"
+    volumes:
+      - /data/mongodb/rs2:/data/db
+    command: mongod --port 27018 --dbpath /data/db --replSet mongoreplset
+  rs3:
+    image: mongo:3.2
+    container_name: "rs3"
+    network_mode: "host"
+    volumes:
+      - /data/mongodb/rs3:/data/db
+    command: mongod --port 27019 --dbpath /data/db --replSet mongoreplset
