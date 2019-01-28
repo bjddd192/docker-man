@@ -15,7 +15,7 @@ services:
     restart: always
     network_mode: bridge
     ports:
-    - "${otter_zookeeper_port}:${otter_zookeeper_port}"
+    - "${otter_zookeeper_port}:2181"
     environment:
     - TZ=Asia/Shanghai
     volumes:
