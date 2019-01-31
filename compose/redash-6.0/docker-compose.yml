@@ -24,6 +24,9 @@ services:
       REDASH_DATABASE_URL: "postgresql://postgres@postgres/postgres"
       REDASH_COOKIE_SECRET: veryverysecret
       REDASH_WEB_WORKERS: 4
+    volumes:
+      - ./HiveTest.py:/tmp/HiveTest.py
+      - ./ImpalaTest.py:/tmp/ImpalaTest.py
     restart: always
     networks:
       - redash
@@ -37,6 +40,9 @@ services:
       REDASH_DATABASE_URL: "postgresql://postgres@postgres/postgres"
       QUEUES: "queries,scheduled_queries,celery"
       WORKERS_COUNT: 2
+    volumes:
+      - ./HiveTest.py:/tmp/HiveTest.py
+      - ./ImpalaTest.py:/tmp/ImpalaTest.py
     restart: always
     networks:
       - redash
