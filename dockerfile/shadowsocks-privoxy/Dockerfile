@@ -2,10 +2,10 @@ FROM alpine:latest
 
 MAINTAINER bjddd192 <bjddd192@163.com>
 
-RUN apk add --update py-pip privoxy \
+RUN apk add --update curl git py-pip privoxy \
 	&& rm /var/cache/apk/*
 
-RUN pip install shadowsocks
+RUN pip install -U git+https://github.com/shadowsocks/shadowsocks.git@master
 
 #------------------------------------------------------------------------------
 # Environment variables:
