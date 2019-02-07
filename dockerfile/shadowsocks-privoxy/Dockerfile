@@ -28,4 +28,6 @@ ADD rootfs /
 #------------------------------------------------------------------------------
 EXPOSE 8118 7070
 
+RUN chmod +x /entrypoint.sh
+
 ENTRYPOINT ["/entrypoint.sh"]
