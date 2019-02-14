@@ -1,0 +1,2 @@
+POSTGRES_PASSWORD=26aeSTZnG2NpumVfD8AyWXtqaggmuOrJ
+REDASH_DATABASE_URL=postgresql://postgres:26aeSTZnG2NpumVfD8AyWXtqaggmuOrJ@postgres/postgres

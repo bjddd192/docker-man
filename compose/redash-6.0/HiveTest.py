@@ -3,7 +3,7 @@
 
 from impala.dbapi import connect
 
-conn = connect(host='10.240.20.22',port=10001,authMechanism='NOSASL',user='gtp_admin',password='NyLCm9Dt',database='gtp')
+conn = connect(host='110.240.114.34',port=10000,authMechanism='NOSASL',user='user_cdh6',password='123456',database='default')
 
 print(conn)
 

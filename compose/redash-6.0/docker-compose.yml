@@ -10,7 +10,7 @@
 version: '2'
 services:
   server:
-    image: redash/redash:6.0.0.b8537
+    image: redash/redash:preview
     command: server
     depends_on:
       - postgres
@@ -31,7 +31,7 @@ services:
     networks:
       - redash
   worker:
-    image: redash/redash:6.0.0.b8537
+    image: redash/redash:preview
     command: scheduler
     environment:
       PYTHONUNBUFFERED: 0

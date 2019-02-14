@@ -3,7 +3,7 @@
 
 from impala.dbapi import connect
 
-conn = connect(host='10.240.20.22',port=21051)
+conn = connect(host='110.240.114.38',port=21050)
 
 print(conn)
 
