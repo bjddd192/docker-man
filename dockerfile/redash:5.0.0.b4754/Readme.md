@@ -5,3 +5,5 @@ redash:5.0.0.b4754 官方镜像的对 Impala 支持有 Bug，故处理相关的�
 ## 参考资料
 
 [Impala and Hive connection issues](https://github.com/getredash/redash/issues/2986)
+
+[python连接impala报错](https://www.smwenku.com/a/5b820d7b2b71772165af6763/zh-cn)
