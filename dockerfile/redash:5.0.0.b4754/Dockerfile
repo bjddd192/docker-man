@@ -5,7 +5,7 @@ MAINTAINER bjddd192 <bjddd192@163.com>
 USER root
 
 # 支持 hive impala
-RUN pip install PyHive==0.2.1 thrift==0.9.3 cx_Oracle==5.2.1
+RUN pip install PyHive==0.2.1 thrift==0.9.3 cx_Oracle
 
 RUN set -x && apt-get install -y unzip libaio1 libaio-dev unixodbc wget alien locales && \
 	wget -P /tmp --no-check-certificate --no-cookies \
