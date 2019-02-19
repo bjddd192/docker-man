@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    maven 配置文件(用于jenkins)
+-->
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <!-- 本地仓库。该值表示构建系统本地仓库的路径。其默认值为: ${user.home}/.m2/repository -->
+    <localRepository>/var/jenkins_home/maven-repository</localRepository>
+
+    <!-- Maven是否需要和用户交互以获得输入。-->
+    <!-- 如果Maven需要和用户交互以获得输入，则设置成true，反之则应为false。-->  
+    <!-- 默认为true。-->  
+    <interactiveMode>true</interactiveMode>
+
+    <!-- Maven是否需要使用plugin-registry.xml文件来管理插件版本。  -->  
+    <!-- 如果设置为true，则在{user.home}/.m2下需要有一个plugin-registry.xml来对plugin的版本进行管理。-->  
+    <!-- 默认为false。-->  
+    <usePluginRegistry>false</usePluginRegistry>  
+
+    <!-- 表示Maven是否需要在离线模式下运行。如果构建系统需要在离线模式下运行，则为true，默认为false。  -->  
+    <!-- 当由于网络设置原因或者安全因素，构建服务器不能连接远程仓库的时候，该配置就十分有用。  -->  
+    <offline>false</offline>  
+
+    <!-- 当插件的组织Id（groupId）没有显式提供时，供搜寻插件组织Id（groupId）的列表。  -->  
+    <!-- 该元素包含一个pluginGroup元素列表，每个子元素包含了一个组织Id（groupId）。  -->  
+    <!-- 当我们使用某个插件，并且没有在命令行为其提供组织Id（groupId）的时候，Maven就会使用该列表。  -->  
+    <!-- 默认情况下该列表包含了org.apache.maven.plugins。  -->  
+    <pluginGroups/>
+
+    <!-- 用来配置不同的代理，多代理profiles可以应对笔记本或移动设备的工作环境：通过简单的设置profile id就可以很容易的更换整个代理配置。  -->  
+    <proxies/> 
+
+    <!-- 配置服务端的一些设置。一些设置如安全证书不应该和pom.xml一起分发。这种类型的信息应该存在于构建服务器上的settings.xml文件中。 -->  
+    <servers> 
+
+        <!-- 服务器元素包含配置服务器时需要的信息  -->
+        <server>
+
+            <!-- 这是server的id（注意不是用户登陆的id），该id与distributionManagement中repository元素的id相匹配。 -->
+            <!-- 说白了就是 nexus 的 Repository ID。 -->
+            <id>release</id>
+
+            <!-- 鉴权用户名。鉴权用户名和鉴权密码表示服务器认证所需要的登录名和密码。  -->
+            <username>deployment</username>
+
+            <!-- 鉴权密码 。鉴权用户名和鉴权密码表示服务器认证所需要的登录名和密码。  -->  
+            <password><![CDATA[deployment@dev123]]></password>
+
+            <!-- 鉴权时使用的私钥位置。和前两个元素类似，私钥位置和私钥密码指定了一个私钥的路径（默认是/home/hudson/.ssh/id_dsa）以及如果需要的话，一个密钥   -->
+            <!-- 将来passphrase和password元素可能会被提取到外部，但目前它们必须在settings.xml文件以纯文本的形式声明。   --> 
+            <!-- <privateKey>${usr.home}/.ssh/id_dsa</privateKey>   -->
+                
+            <!-- 鉴权时使用的私钥密码。 -->  
+            <!-- <passphrase>some_passphrase</passphrase>  --> 
+
+            <!-- 文件被创建时的权限。如果在部署的时候会创建一个仓库文件或者目录，这时候就可以使用权限（permission）。-->  
+            <!-- 这两个元素合法的值是一个三位数字，其对应了unix文件系统的权限，如664，或者775。  -->  
+            <!-- <filePermissions>664</filePermissions> -->  
+
+            <!-- 目录被创建时的权限。  -->  
+            <!-- <directoryPermissions>775</directoryPermissions>   -->
+                
+            <!-- 传输层额外的配置项  -->  
+            <!-- <configuration></configuration>  --> 
+        </server>
+
+        <server>
+            <id>snapshot</id>
+            <username>deployment</username>
+            <password><![CDATA[deployment@dev123]]></password>
+        </server> 
+
+        <server>
+            <id>thirdparty</id>
+            <username>deployment</username>
+            <password><![CDATA[deployment@dev123]]></password>
+        </server>
+
+    </servers>
+
+    <!-- 为仓库列表配置的下载镜像列表。-->  
+    <mirrors>
+
+        <!--给定仓库的下载镜像。  --> 
+        <mirror>
+
+            <!--该镜像的唯一标识符。id用来区分不同的mirror元素。  --> 
+            <id>nexus</id>
+
+            <!--镜像名称  -->  
+            <name>local private nexus</name>
+
+            <!--该镜像的URL。构建系统会优先考虑使用该URL，而非使用默认的服务器URL。 --> 
+            <url>http://192.168.105.88:20020/nexus/content/groups/public</url>
+
+            <!--镜像所包含的仓库的Id。例如，如果我们要设置了一个Maven中央仓库（http://repo1.maven.org/maven2）的镜像，-->  
+            <!--就需要将该元素设置成central。这必须和中央仓库的id central完全一致。 --> 
+            <mirrorOf>*</mirrorOf>
+
+        </mirror>
+
+    </mirrors>
+
+    <!--根据环境参数来调整构建配置的列表。settings.xml中的profile元素是pom.xml中profile元素的裁剪版本。-->  
+    <!--它包含了id，activation, repositories, pluginRepositories和 properties元素。-->  
+    <!--这里的profile元素只包含这五个子元素是因为这里只关心构建系统这个整体（这正是settings.xml文件的角色定位），而非单独的项目对象模型设置。-->  
+    <!--如果一个settings中的profile被激活，它的值会覆盖任何其它定义在POM中或者profile.xml中的带有相同id的profile。  -->
+    <profiles>
+
+        <!--根据环境参数来调整的构件的配置 -->
+        <profile>
+
+            <!--该配置的唯一标识符。  -->
+            <id>nexus</id>
+
+            <!--远程仓库列表，它是Maven用来填充构建系统本地仓库所使用的一组远程项目。  -->
+            <repositories>
+
+                <!--包含需要连接到远程仓库的信息  -->  
+                <repository>
+
+                    <!--远程仓库唯一标识 --> 
+                    <id>nexus</id>
+
+                    <!--远程仓库名称  -->  
+                    <name>local private nexus</name>
+
+                    <!--远程仓库的地址  -->
+                    <url>http://192.168.105.88:20020/nexus/content/groups/public</url>
+
+                </repository>
+
+            </repositories>
+        </profile>
+    </profiles>
+
+    <!--手动激活profiles的列表，按照profile被应用的顺序定义activeProfile。 该元素包含了一组activeProfile元素，每个activeProfile都含有一个profile id。-->  
+    <!--任何在activeProfile中定义的profile id，不论环境设置如何，其对应的 profile都会被激活。-->  
+    <!--如果没有匹配的profile，则什么都不会发生。例如，env-test是一个activeProfile，则在pom.xml（或者profile.xml）中对应id的profile会被激活。-->  
+    <!--如果运行过程中找不到这样一个profile，Maven则会像往常一样运行。  -->  
+    <activeProfiles>
+        <activeProfile>nexus</activeProfile>
+    </activeProfiles>
+
+</settings>
