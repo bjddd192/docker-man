@@ -33,7 +33,9 @@ RUN apt-get -y install libaio-dev
 RUN apt-get -y clean 
 	
 ENV ORACLE_HOME=/usr/local/instantclient \
-	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/instantclient
+	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/instantclient \
+	TNS_ADMIN=$ORACLE_HOME/network/admin \
+	NLS_LANG=AMERICAN_AMERICA.AL32UTF8
 	
 RUN pip install cx_Oracle==5.2.1
 

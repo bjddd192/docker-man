@@ -13,4 +13,8 @@
 
 [joaoleite/redash_oracle](https://github.com/joaoleite/redash_oracle)
 
+[Redash で Oracle 接続の Docker を作ってみた](https://qiita.com/sutoh/items/d19c787069ff43aeebcf)
+
+[Linux oracle中文乱码的问题解决](https://www.cnblogs.com/leolzi/p/9796316.html)
+
 
