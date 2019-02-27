@@ -80,3 +80,15 @@ docker-compose up -d otter_manager
 出现过zk异常，异常日志写满磁盘的事件，大约10天左右会写满磁盘。
 
 如zk发生异常，频繁报错，可将zk数据清除，重新启动otter，然后备份channel、pipeline表，再清空channel、pipeline表重新在界面初始化channel、pipeline表即可。
+
+#### ZooKeeper 设置完dataLogDir后无法启动
+
+在zoo.conf中设置：dataLogDir=../datalog  后，无法启动。
+
+解决办法：将目录 /data/version-2 下面的log文件全部删除即可，重新启动成功。
+
+分析：可能是没有设置log文件夹的时候，启动日志都放在了data中，再次启动时又去读取之前日志文件而产生错误。
+
+### 参考资料
+
+[zookeeper数据迁移及恢复](https://ningyu1.github.io/site/post/101-zookeeper-data-migrate/)
