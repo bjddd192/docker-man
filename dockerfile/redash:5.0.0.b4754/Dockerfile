@@ -29,7 +29,7 @@ RUN set -x && apt-get -y update&& apt-get install -y unzip && \
 	ln -s /usr/local/instantclient/libclntsh.so.11.1 /usr/local/instantclient/libclntsh.so && \
 	ln -s /usr/local/instantclient/sqlplus /usr/bin/sqlplus 
 
-RUN apt-get -y install libaio-dev 
+RUN apt-get -y install libaio-dev vim
 RUN apt-get -y clean 
 	
 ENV ORACLE_HOME=/usr/local/instantclient \
@@ -41,5 +41,10 @@ RUN pip install cx_Oracle==5.2.1
 
 USER redash
 
-#Add REDASH ENV to add Oracle Query Runner 
+# Add REDASH ENV to add Oracle Query Runner 
 ENV REDASH_ADDITIONAL_QUERY_RUNNERS=redash.query_runner.oracle
+
+# 解决 impala 查询语句包含中文时的报错：
+# Error running query: 'ascii' codec can't encode characters in position 190-192: ordinal not in range(128)
+ADD sitecustomize.py /usr/local/lib/python2.7/site-packages/sitecustomize.py
+ADD impala_ds.py /app/redash/query_runner/impala_ds.py
