@@ -1,0 +1,82 @@
+# 作者：Mars丶小石头
+# 编写于：2019.01
+
+# Compose file reference
+# https://docs.docker.com/compose/compose-file
+
+# 注意：mac 下无法正常使用 host 网络模式(能部署成功，但是外部无法访问)
+# https://forums.docker.com/t/should-docker-run-net-host-work/14215
+
+version: '2'
+x-redash-service: &redash-service
+  image: bjddd192/redash:5.0.0.b4754
+  depends_on:
+    - postgres
+    - redis
+  env_file: /data/docker_volumn/redash/env
+  volumes:
+      - ./HiveTest.py:/tmp/HiveTest.py
+      - ./ImpalaTest.py:/tmp/ImpalaTest.py
+  restart: always
+  networks:
+    - redash
+services:
+  server:
+    <<: *redash-service
+    command: server
+    ports:
+      - "5000:5000"
+    environment:
+      REDASH_WEB_WORKERS: 4
+  scheduler:
+    <<: *redash-service
+    command: scheduler
+    environment:
+      QUEUES: "celery"
+      WORKERS_COUNT: 1
+  scheduled_worker:
+    <<: *redash-service
+    command: worker
+    environment:
+      QUEUES: "scheduled_queries"
+      WORKERS_COUNT: 1
+  adhoc_worker:
+    <<: *redash-service
+    command: worker
+    environment:
+      QUEUES: "queries"
+      WORKERS_COUNT: 2
+  redis:
+    image: redis:3.0-alpine
+    restart: always
+    networks:
+      - redash
+  postgres:
+    image: postgres:9.5.6-alpine
+    env_file: /data/docker_volumn/redash/env
+    ports:
+      - "5432:5432"
+    volumes:
+      - /data/docker_volumn/redash/postgres-data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - redash
+  nginx:
+    image: redash/nginx:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    links:
+      - server:redash
+    restart: always
+    networks:
+      - redash
+    
+networks:
+  redash:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 192.168.121.0/24
