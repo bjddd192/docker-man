@@ -9,7 +9,7 @@
 
 version: '2'
 x-redash-service: &redash-service
-  image: bjddd192/redash:5.0.0.b4754
+  image: bjddd192/redash:7.0.0.b18042
   depends_on:
     - postgres
     - redis
