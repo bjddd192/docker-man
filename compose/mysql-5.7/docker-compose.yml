@@ -17,6 +17,7 @@ services:
     ports:
     - "${mysql_port}:3306"
     environment:
+    - TZ=Asia/Shanghai
     - MYSQL_ROOT_PASSWORD=${mysql_pwd}
     volumes:
     - ${mysql_conf_path}:/etc/mysql/conf.d
