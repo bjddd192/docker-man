@@ -10,7 +10,6 @@ RUN echo 'http://mirrors.ustc.edu.cn/alpine/v3.9/main' > /etc/apk/repositories \
 	&& apk update && apk add tzdata git \
 	&& ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 	&& echo "Asia/Shanghai" > /etc/timezone \
-	&& npm config set registry https://registry.npm.taobao.org && \
 	&& npm install -g gitbook-cli \
 	&& gitbook fetch ${GITBOOK_VERSION} \
 	&& mkdir /gitbook
