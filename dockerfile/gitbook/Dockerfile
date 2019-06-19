@@ -2,9 +2,13 @@ FROM nginx:1.17.0-alpine
 
 MAINTAINER bjddd192 <bjddd192@163.com>
 
+# 镜像加速
+RUN echo 'http://mirrors.ustc.edu.cn/alpine/v3.9/main' > /etc/apk/repositories \
+	&& echo 'http://mirrors.ustc.edu.cn/alpine/v3.9/community' >>/etc/apk/repositories \
+
 ENV NODE_VERSION 10.16.0
 
-# 安装 nodejs 
+# 安装 nodejs
 RUN addgroup -g 1000 node \
     && adduser -u 1000 -G node -s /bin/sh -D node \
     && apk add --no-cache \
@@ -74,13 +78,11 @@ RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
 ARG GITBOOK_VERSION="3.2.3"
 
 # 设置时区
-RUN echo 'http://mirrors.ustc.edu.cn/alpine/v3.9/main' > /etc/apk/repositories \
-	&& echo 'http://mirrors.ustc.edu.cn/alpine/v3.9/community' >>/etc/apk/repositories \
-	&& apk update && apk add tzdata git curl \
+RUN apk update && apk add tzdata git curl \
 	&& ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 	&& echo "Asia/Shanghai" > /etc/timezone
 
-# 安装基础组件	
+# 安装 gitbook	
 RUN npm install -g gitbook-cli \
 	&& gitbook fetch ${GITBOOK_VERSION} \
 	&& mkdir /gitbook
