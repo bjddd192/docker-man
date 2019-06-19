@@ -11,6 +11,8 @@ RUN apk update && apk add nodejs npm tzdata git curl \
 	&& ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 	&& echo "Asia/Shanghai" > /etc/timezone
 
+ARG GITBOOK_VERSION="3.2.3"
+
 # 安装 gitbook	
 RUN npm install -g gitbook-cli \
 	&& gitbook fetch ${GITBOOK_VERSION} \
