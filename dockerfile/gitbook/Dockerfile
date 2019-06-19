@@ -13,6 +13,9 @@ RUN apk update && apk add nodejs npm tzdata git curl \
 
 ARG GITBOOK_VERSION="3.2.3"
 
+# 使用淘宝镜像源加速
+RUN npm config set registry https://registry.npm.taobao.org
+
 # 安装 gitbook	
 RUN npm install -g gitbook-cli \
 	&& gitbook fetch ${GITBOOK_VERSION} \
