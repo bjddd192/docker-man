@@ -4,7 +4,7 @@ MAINTAINER bjddd192 <bjddd192@163.com>
 
 # 镜像加速
 RUN echo 'http://mirrors.ustc.edu.cn/alpine/v3.9/main' > /etc/apk/repositories \
-	&& echo 'http://mirrors.ustc.edu.cn/alpine/v3.9/community' >>/etc/apk/repositories \
+	&& echo 'http://mirrors.ustc.edu.cn/alpine/v3.9/community' >>/etc/apk/repositories
 
 ENV NODE_VERSION 10.16.0
 
