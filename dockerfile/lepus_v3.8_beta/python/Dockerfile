@@ -1,9 +1,9 @@
 # 封装 mysql 监控工具《天兔 lepus》 python 数据采集程序
 
-FROM registry.eyd.com:5000/library/centos:6.8
+FROM centos:6.8
 
 #MAINTAINER 格式为 MAINTAINER <name>，指定维护者信息。
-MAINTAINER yanglei <yang.l@wonhigh.cn>
+MAINTAINER bjddd192 <bjddd192@163.com>
 
 # 安装必备的包
 RUN set -x && \
@@ -15,7 +15,7 @@ RUN set -x && \
     echo "/lib64" >> /etc/ld.so.conf && /sbin/ldconfig -v
 
 # 安装redis的python驱动
-ADD http://down.belle.cn/package/lepus/redis-py-2.10.3.tar.gz /tmp/redis-py-2.10.3.tar.gz
+ADD http://10.0.43.24:8066/package/lepus/redis-py-2.10.3.tar.gz /tmp/redis-py-2.10.3.tar.gz
 RUN set -x && \
     tar zxvf /tmp/redis-py-2.10.3.tar.gz -C /tmp && cd /tmp/redis-2.10.3 && \
     python setup.py install && rm -rf /tmp/*
@@ -25,9 +25,9 @@ RUN set -x && \
 # http://blog.csdn.net/u011666720/article/details/41350897
 # 验证：sqlplus64 system/oracle@172.20.32.36/xe
 RUN set -x && \
-    cd /tmp && wget http://down.belle.cn/package/lepus/oracle-instantclient-basic-10.2.0.5-1.x86_64.rpm && \
-    wget http://down.belle.cn/package/lepus/oracle-instantclient-devel-10.2.0.5-1.x86_64.rpm && \
-    wget http://down.belle.cn/package/lepus/oracle-instantclient-sqlplus-10.2.0.5-1.x86_64.rpm && \
+    cd /tmp && wget http://10.0.43.24:8066/package/lepus/oracle-instantclient-basic-10.2.0.5-1.x86_64.rpm && \
+    wget http://10.0.43.24:8066/package/lepus/oracle-instantclient-devel-10.2.0.5-1.x86_64.rpm && \
+    wget http://10.0.43.24:8066/package/lepus/oracle-instantclient-sqlplus-10.2.0.5-1.x86_64.rpm && \
     rpm -ivh oracle-instantclient-basic-10.2.0.5-1.x86_64.rpm && \
     rpm -ivh oracle-instantclient-devel-10.2.0.5-1.x86_64.rpm && \
     rpm -ivh oracle-instantclient-sqlplus-10.2.0.5-1.x86_64.rpm && \
@@ -41,20 +41,19 @@ RUN set -x && \
     echo "export PATH=$PATH:$ORACLE_HOME/lib" >> /etc/profile.d/oracle.sh && \
     chmod o+r /etc/ld.so.conf.d/oracle.conf && ldconfig && \
     ln -s /usr/include/oracle/10.2.0.5/client64 $ORACLE_HOME/include && \
-    wget http://down.belle.cn/package/lepus/cx_Oracle-5.1.2.tar.gz && \
+    wget http://10.0.43.24:8066/package/lepus/cx_Oracle-5.1.2.tar.gz && \
     tar zxvf cx_Oracle-5.1.2.tar.gz && cd cx_Oracle-5.1.2 && \
     python setup.py build && python setup.py install && rm -rf /tmp/*
 
 # 安装mongodb的python驱动
 RUN set -x && \
-    cd /tmp && wget http://down.belle.cn/package/lepus/get-pip.py && \
+    cd /tmp && wget http://10.0.43.24:8066/package/lepus/get-pip.py && \
     python get-pip.py && pip install pymongo==3.1.1 && rm -rf /tmp/*
 
 # 安装lepus监控程序
-ADD http://down.belle.cn/package/lepus/lepus_v3.7_python.tar.gz /tmp/lepus_v3.7_python.tar.gz
+COPY src /tmp/
 RUN set -x && \
-    mkdir /tmp/python && tar zxvf /tmp/lepus_v3.7_python.tar.gz -C /tmp/python && cd /tmp/python && \
-    ./install.sh && rm -rf /tmp/*
+    cd /tmp && ./install.sh && rm -rf /tmp/*
 
 # 操作系统的监控（使用 snmp 协议），配置繁琐，且用途不大，还是用专业的工具（如 zabbix）来进行监控比较好
 # 这里就略过，不做这个功能的处理

@@ -11,6 +11,20 @@ else
   basedir="$basedir"
 fi
 
+cat > /usr/local/lepus/etc/config.ini << EOF
+###监控机MySQL数据库连接地址###
+[monitor_server]
+host="$MYSQL_HOST"
+port=$MYSQL_PORT
+user="$MYSQL_USER"
+passwd="$MYSQL_PASS"
+dbname="$MYSQL_DBNAME"
+EOF
+
+echo "$MYSQL_SLOW_QUERY_SEND_CRONTAB"" root links http://""$LEPUS_WEB_HOST""/index.php/task/send_mysql_slowquery_mail > /dev/null 2>&1" >> /etc/crontab
+
+service crond start
+
 arg=$1
 lepus_process=`ps -ef|grep lepus.py |grep -v grep|wc -l`
 case "$arg" in
@@ -28,7 +42,8 @@ case "$arg" in
     if [ $lepus_process -ge "2" ];then
        echo " lepus server is already run!"
     else
-       cd $basedir && nohup  python lepus.py &> logs/lepus.log& 
+       # cd $basedir && nohup  python lepus.py & > /dev/null 2>&1
+       cd $basedir && python lepus.py
        sleep 5
        lepus_process=`ps -ef|grep lepus.py |grep -v grep|wc -l`
        if [ $lepus_process -ge "2" ];then
@@ -65,7 +80,4 @@ case "$arg" in
 esac
 
 exit 0  
-  
-
-
 
