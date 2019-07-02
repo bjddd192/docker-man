@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -t registry.eyd.com:5000/tools/lepus:v3.8.0-python .
+docker build -t bjddd192/lepus:v3.8.0-python .

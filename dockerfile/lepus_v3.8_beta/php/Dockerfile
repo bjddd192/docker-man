@@ -5,7 +5,7 @@ FROM php:5.3.29-apache
 
 MAINTAINER bjddd192 <bjddd192@163.com>
 
-COPY src/* /var/www/html/
+COPY src /var/www/html/
 
 ENV LANG="C.UTF-8" \
     TZ="Asia/Shanghai" \
