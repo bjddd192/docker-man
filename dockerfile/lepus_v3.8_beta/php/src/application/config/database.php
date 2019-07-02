@@ -48,19 +48,19 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = '127.0.0.1';
-$db['default']['port']     = '3306';
-$db['default']['username'] = '';
-$db['default']['password'] = '';
-$db['default']['database'] = 'lepus';
+$db['default']['hostname'] = getenv('MYSQL_HOST');
+$db['default']['port']     = getenv('MYSQL_PORT');
+$db['default']['username'] = getenv('MYSQL_USER');
+$db['default']['password'] = getenv('MYSQL_PASS');
+$db['default']['database'] = getenv('MYSQL_DBNAME');
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;
 $db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
+$db['default']['char_set'] = getenv('MYSQL_CHARSET');
+$db['default']['dbcollat'] = getenv('MYSQL_COLLATE');
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
