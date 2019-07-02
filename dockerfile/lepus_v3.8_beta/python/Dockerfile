@@ -75,9 +75,5 @@ RUN set -x && \
 
 WORKDIR /usr/local/lepus
 
-ADD check_mongodb.py /usr/local/lepus/check_mongodb.py
-ADD check_redis.py /usr/local/lepus/check_redis.py
-ADD lepus /usr/local/lepus/lepus
-
 CMD ["/usr/local/lepus/lepus","start"]
 
