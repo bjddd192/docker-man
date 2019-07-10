@@ -1,0 +1,68 @@
+# 作者：Mars丶小石头
+# 编写于：2019.07
+
+# Compose file reference
+# https://docs.docker.com/compose/compose-file
+
+# 功能：jumpserver 1.5.0 容器化部署
+
+version: "3"
+
+services:
+
+  mysql:
+    image: mysql:5.7.24
+    container_name: mysql
+    restart: always
+    network_mode: bridge
+    ports:
+    - "5000:3306"
+    environment:
+    - TZ=Asia/Shanghai
+    - MYSQL_ROOT_PASSWORD=Root123
+    volumes:
+    - /data/docker_volumn/mysql/data:/var/lib/mysql
+    command: [
+      '--character-set-server=utf8',
+      '--collation-server=utf8_general_ci',
+    ]
+
+  redis:
+    container_name: redis
+    image: redis:4.0.14
+    ports:
+    - "56380:56380"
+    restart: always
+    network_mode: bridge
+    volumes:
+      - /data/docker_volumn/redis/data:/data
+    command: [
+      '--port 56380',
+      '--requirepass "Redis123"',
+      '--masterauth "Redis123"',
+      '--maxmemory 512MB',
+      '--maxmemory-policy volatile-ttl',
+      '--save ""',
+    ]
+
+  jms:
+    image: jumpserver/jms_all:1.5.0
+    container_name: jms
+    restart: always
+    network_mode: bridge
+    ports:
+    - "50080:80"
+    - "52222:2222"
+    environment:
+    - SECRET_KEY=A9txcKjygotLBPVQo5C9DjBwMchqrJiOck8F383EuLHRRPMw5U
+    - BOOTSTRAP_TOKEN=WFMqVCJZKh5I7MQH
+    - DB_HOST=10.244.1.21
+    - DB_PORT=5000
+    - DB_USER=root
+    - DB_PASSWORD=Root123
+    - DB_NAME=jumpserver
+    - REDIS_HOST=10.244.1.21
+    - REDIS_PORT=56380
+    - REDIS_PASSWORD=Redis123
+    volumes:
+    - /data/docker_volumn/jumpserver/media:/opt/jumpserver/data/media
