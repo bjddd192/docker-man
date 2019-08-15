@@ -7,6 +7,10 @@
 ```sql
 grant all privileges on `otter`.* to 'usr_otter'@'%' identified by 'scm_otter';
 flush privileges;
+
+-- 同步库创建 canal 账户，用于获取数据库日志
+grant super,replication slave,select on *.* to 'repl_otter'@'10.0.43.%' identified by 'repl_otter';
+flush privileges;
 ```
 
 ## 启动 zookeeper
