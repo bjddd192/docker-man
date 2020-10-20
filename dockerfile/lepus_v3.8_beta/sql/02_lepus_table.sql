@@ -116,7 +116,7 @@ CREATE TABLE `alarm` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) NOT NULL DEFAULT '0',
   `tags` varchar(50) DEFAULT NULL,
-  `host` varchar(30) DEFAULT NULL,
+  `host` varchar(100) DEFAULT NULL,
   `port` varchar(10) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `db_type` varchar(30) DEFAULT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE `alarm_history` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) NOT NULL DEFAULT '0',
   `tags` varchar(50) DEFAULT NULL,
-  `host` varchar(30) DEFAULT NULL,
+  `host` varchar(100) DEFAULT NULL,
   `port` varchar(10) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `db_type` varchar(30) DEFAULT NULL,
@@ -182,7 +182,7 @@ CREATE TABLE `alarm_temp` (
 DROP TABLE IF EXISTS `db_servers_mongodb`;
 CREATE TABLE `db_servers_mongodb` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
@@ -214,7 +214,7 @@ CREATE TABLE `db_servers_mongodb` (
 DROP TABLE IF EXISTS `db_servers_mysql`;
 CREATE TABLE `db_servers_mysql` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `username` varchar(30) DEFAULT NULL,
   `password` varchar(30) DEFAULT NULL,
@@ -256,7 +256,7 @@ CREATE TABLE `db_servers_mysql` (
 DROP TABLE IF EXISTS `db_servers_oracle`;
 CREATE TABLE `db_servers_oracle` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `host` varchar(30) DEFAULT NULL,
+  `host` varchar(100) DEFAULT NULL,
   `port` varchar(10) DEFAULT NULL,
   `dsn` varchar(50) DEFAULT NULL,
   `username` varchar(50) DEFAULT NULL,
@@ -292,7 +292,7 @@ CREATE TABLE `db_servers_oracle` (
 DROP TABLE IF EXISTS `db_servers_os`;
 CREATE TABLE `db_servers_os` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `host` varchar(30) DEFAULT NULL,
+  `host` varchar(100) DEFAULT NULL,
   `community` varchar(50) DEFAULT NULL,
   `tags` varchar(30) DEFAULT NULL,
   `monitor` tinyint(2) DEFAULT '0',
@@ -333,7 +333,7 @@ CREATE TABLE `db_servers_os` (
 DROP TABLE IF EXISTS `db_servers_redis`;
 CREATE TABLE `db_servers_redis` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `password` varchar(50) DEFAULT NULL,
   `tags` varchar(50) DEFAULT NULL,
@@ -364,7 +364,7 @@ CREATE TABLE `db_servers_redis` (
 DROP TABLE IF EXISTS `db_servers_sqlserver`;
 CREATE TABLE `db_servers_sqlserver` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
@@ -397,7 +397,7 @@ DROP TABLE IF EXISTS `db_status`;
 CREATE TABLE `db_status` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) NOT NULL DEFAULT '0',
-  `host` varchar(30) NOT NULL DEFAULT '',
+  `host` varchar(100) NOT NULL DEFAULT '',
   `port` varchar(10) NOT NULL DEFAULT '',
   `db_type` varchar(10) NOT NULL DEFAULT '',
   `db_type_sort` tinyint(2) NOT NULL DEFAULT '0',
@@ -536,7 +536,7 @@ DROP TABLE IF EXISTS `mysql_bigtable`;
 CREATE TABLE `mysql_bigtable` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) DEFAULT NULL,
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `tags` varchar(50) NOT NULL DEFAULT '',
   `db_name` varchar(50) DEFAULT NULL,
@@ -556,7 +556,7 @@ DROP TABLE IF EXISTS `mysql_bigtable_history`;
 CREATE TABLE `mysql_bigtable_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) DEFAULT NULL,
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `tags` varchar(50) NOT NULL DEFAULT '',
   `db_name` varchar(50) DEFAULT NULL,
@@ -577,7 +577,7 @@ DROP TABLE IF EXISTS `mysql_connected`;
 CREATE TABLE `mysql_connected` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) NOT NULL,
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `tags` varchar(50) NOT NULL DEFAULT '',
   `connect_server` varchar(100) NOT NULL,
@@ -595,7 +595,7 @@ DROP TABLE IF EXISTS `mysql_processlist`;
 CREATE TABLE `mysql_processlist` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) DEFAULT NULL,
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `tags` varchar(50) NOT NULL DEFAULT '',
   `pid` int(10) DEFAULT NULL,
@@ -621,7 +621,7 @@ CREATE TABLE `mysql_replication` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) DEFAULT NULL,
   `tags` varchar(50) NOT NULL DEFAULT '',
-  `host` varchar(30) DEFAULT NULL,
+  `host` varchar(100) DEFAULT NULL,
   `port` varchar(20) DEFAULT NULL,
   `is_master` tinyint(2) DEFAULT '0',
   `is_slave` tinyint(2) unsigned DEFAULT '0',
@@ -649,7 +649,7 @@ CREATE TABLE `mysql_replication_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) NOT NULL,
   `tags` varchar(50) NOT NULL DEFAULT '',
-  `host` varchar(30) DEFAULT NULL,
+  `host` varchar(100) DEFAULT NULL,
   `port` varchar(20) DEFAULT NULL,
   `is_master` tinyint(2) DEFAULT '0',
   `is_slave` tinyint(2) DEFAULT '0',
@@ -819,7 +819,7 @@ DROP TABLE IF EXISTS `mysql_status`;
 CREATE TABLE `mysql_status` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) NOT NULL DEFAULT '0',
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `tags` varchar(50) NOT NULL DEFAULT '',
   `connect` smallint(4) NOT NULL DEFAULT '0',
@@ -923,7 +923,7 @@ DROP TABLE IF EXISTS `mysql_status_history`;
 CREATE TABLE `mysql_status_history` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) NOT NULL DEFAULT '0',
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `tags` varchar(50) NOT NULL DEFAULT '',
   `connect` smallint(4) NOT NULL DEFAULT '0',
@@ -1370,7 +1370,7 @@ CREATE TABLE `redis_replication` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) NOT NULL DEFAULT '0',
   `tags` varchar(50) NOT NULL DEFAULT '',
-  `host` varchar(30) DEFAULT '0',
+  `host` varchar(100) DEFAULT '0',
   `port` smallint(4) DEFAULT '0',
   `role` varchar(20) DEFAULT '0',
   `master_server_id` smallint(4) NOT NULL DEFAULT '0',
@@ -1418,7 +1418,7 @@ DROP TABLE IF EXISTS `redis_status`;
 CREATE TABLE `redis_status` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) NOT NULL DEFAULT '0',
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `tags` varchar(50) NOT NULL DEFAULT '',
   `connect` smallint(4) NOT NULL DEFAULT '0',
@@ -1491,7 +1491,7 @@ DROP TABLE IF EXISTS `redis_status_history`;
 CREATE TABLE `redis_status_history` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) NOT NULL DEFAULT '0',
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `tags` varchar(50) NOT NULL DEFAULT '',
   `connect` smallint(4) NOT NULL DEFAULT '0',
@@ -1565,7 +1565,7 @@ DROP TABLE IF EXISTS `sqlserver_status`;
 CREATE TABLE `sqlserver_status` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) NOT NULL DEFAULT '0',
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `tags` varchar(50) NOT NULL DEFAULT '',
   `connect` smallint(4) NOT NULL DEFAULT '0',
@@ -1593,7 +1593,7 @@ DROP TABLE IF EXISTS `sqlserver_status_history`;
 CREATE TABLE `sqlserver_status_history` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `server_id` smallint(4) NOT NULL DEFAULT '0',
-  `host` varchar(30) NOT NULL,
+  `host` varchar(100) NOT NULL,
   `port` varchar(10) NOT NULL,
   `tags` varchar(50) NOT NULL DEFAULT '',
   `connect` smallint(4) NOT NULL DEFAULT '0',
