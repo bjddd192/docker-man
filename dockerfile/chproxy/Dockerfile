@@ -13,5 +13,4 @@ RUN make release-build
 FROM alpine
 MAINTAINER bjddd192 <bjddd192@163.com>
 COPY --from=build /go/src/github.com/Vertamedia/chproxy/chproxy /chproxy
-ENTRYPOINT [ "/chproxy" ]
-CMD [ "--help" ]
+CMD [ "/chproxy", "--help" ]
