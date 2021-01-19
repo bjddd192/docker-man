@@ -1,4 +1,4 @@
 #!/bin/sh
 
-docker build -t bjddd192/chproxy:v1.14.1 .
+docker build -t bjddd192/chproxy:v1.14.2 .
 

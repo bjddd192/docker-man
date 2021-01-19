@@ -10,7 +10,7 @@ RUN mkdir -p /go/src/github.com/Vertamedia \
 WORKDIR /go/src/github.com/Vertamedia/chproxy
 RUN make release-build
 
-FROM alpine
+FROM alpine:3.4
 MAINTAINER bjddd192 <bjddd192@163.com>
 COPY --from=build /go/src/github.com/Vertamedia/chproxy/chproxy /chproxy
 CMD [ "/chproxy", "--help" ]
